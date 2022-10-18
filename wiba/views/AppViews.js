@@ -12,7 +12,7 @@ exports.Wrapper = class extends React.Component {
           {content}
         </header>
       </div>
-    );
+    )
   }
 }
 
