@@ -20,9 +20,38 @@ exports.ConnectAccount = class extends React.Component{
   render(){
     return(
       <div>
-        Please wait while we connect to your account.
-        If this takes more than a few seconds, there may be something wrong.
+        Connecting to your account...
+        Please wait for a few seconds.
       </div>
     )
   }
 }
+
+exports.fundAccount = class extends React.Component {
+  render(){
+    const {bal, standardUnit, parent} = this.props
+    const amt = (this.state || {}).amt
+    return(
+      <div>
+        <h2>Fund account</h2>
+        <br />
+          Balance: {bal} {standardUnit}
+        <hr />
+          Would you like to fund your account with additional {standardUnit}?
+        <br />
+          (This only works on certain devnets)
+        <br />
+        <input
+          type='number'
+          // placeholder={defaultFundAmt}
+          onChange={(e) => this.setState({amt: e.currentTarget.value})}
+        />
+        <button onClick={() => parent.fundAccount(amt)}>Fund Account</button>
+        <button onClick={() => parent.skipFundAccount()}>Skip</button>
+      </div>
+    )
+  }
+}
+
+
+export default exports;
