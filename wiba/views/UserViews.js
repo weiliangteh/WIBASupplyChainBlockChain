@@ -2,6 +2,17 @@ import React from "react";
 
 const exports = {}
 
+exports.SeeOrderOut = class extends React.Component {
+  render(){
+    const {status} = this.props
+    return(
+      <div>
+        The order status: {status} 
+      </div>
+    )
+  }
+}
+
 exports.WaitingForResults = class extends React.Component {
   render() {
     return (
@@ -16,8 +27,8 @@ exports.Done = class extends React.Component {
   render() {
     return (
       <div>
-        Thank you for using our service.
-        <br/>Your shipment is arrived safely.
+        Your shipment is arrived safely.
+        <br/>Thank you for using our service.
       </div>
     );
   }
