@@ -2,7 +2,7 @@
 
 const User = {
   ...hasRandom,
-  seeOrderOutcome: Fun([UInt], Null),
+  seeOrderOutcome: Fun([UInt], Null),   // UInt == order status
   seeDeliveryOutcome: Fun([UInt], Null),
   informTimeout: Fun([], Null),
 };
@@ -41,7 +41,7 @@ export const main = Reach.App(() => {
 
   Seller.only(() => {
     const orderOutcome = declassify(interact.getOrderOutcome(order));
-    const deadline = declassify(interact.deadline);
+    const deadline = declassify(interact.deadline);     // might not need anymore with react
     const amount = declassify(interact.wager);
   });
   Seller.publish(orderOutcome, deadline, amount)
