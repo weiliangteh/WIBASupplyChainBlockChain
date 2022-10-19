@@ -22,7 +22,7 @@ export const main = Reach.App(() => {
   const Courier = Participant('Courier', {
     ...User,
     getDeliveryOutcome: Fun([UInt], UInt),      // input delivery status
-    getTemperature: Fun([UInt], UInt),          // input shipment temperature
+    getTemperature: Fun([Null], UInt),          // input shipment temperature
     getServiceCharge: Fun([Null], UInt)         // input service cahrge
   })
 
