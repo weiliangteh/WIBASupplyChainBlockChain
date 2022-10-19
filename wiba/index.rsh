@@ -16,14 +16,14 @@ export const main = Reach.App(() => {
   });
   const Buyer  = Participant('Buyer', {
     ...User,
-    getOrder: Fun([], UInt),          // buyer input order
-    acceptWager: Fun([UInt], Null),
+    getOrder: Fun([], UInt),               // buyer input order
+    acceptWager: Fun([UInt, UInt], Null), 
   });
   const Courier = Participant('Courier', {
     ...User,
     getDeliveryOutcome: Fun([UInt], UInt),      // input delivery status
     getTemperature: Fun([UInt], UInt),          // input shipment temperature
-    getServiceCharge: FUn([Null], UInt)         // input service cahrge
+    getServiceCharge: Fun([Null], UInt)         // input service cahrge
   })
 
   init();

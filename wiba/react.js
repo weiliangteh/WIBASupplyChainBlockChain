@@ -70,6 +70,7 @@ class Seller extends User {
     this.state.resolveAcceptedP()
     this.setState({view: 'WaitingForTurn'})
   }
+  // getOrderOutcome function
   render() { return renderView(this, AttacherViews) }
 }
 
