@@ -23,6 +23,7 @@ export const main = Reach.App(() => {
     ...User,
     getDeliveryOutcome: Fun([UInt], UInt),      // input delivery status
     getTemperature: Fun([UInt], UInt),          // input shipment temperature
+    getServiceCharge: FUn([Null], UInt)         // input service cahrge
   })
 
   init();
