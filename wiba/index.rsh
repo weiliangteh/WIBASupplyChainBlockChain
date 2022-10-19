@@ -2,27 +2,27 @@
 
 const User = {
   ...hasRandom,
-  seeOrderOutcome: Fun([UInt], Null),   // UInt == order status
-  seeDeliveryOutcome: Fun([UInt], Null),
+  seeOrderOutcome: Fun([UInt], Null),   // order acceptance/decline UInt == order status
+  seeDeliveryOutcome: Fun([UInt], Null), // see order delivery status
   informTimeout: Fun([], Null),
 };
 
 export const main = Reach.App(() => {
   const Seller = Participant('Seller', {
     ...User,
-    getOrderOutcome: Fun([UInt], UInt),
+    getOrderOutcome: Fun([UInt], UInt),     // accept/decline order
     wager: UInt,
     deadline: UInt,
   });
   const Buyer  = Participant('Buyer', {
     ...User,
-    getOrder: Fun([], UInt),
+    getOrder: Fun([], UInt),          // buyer input order
     acceptWager: Fun([UInt], Null),
   });
   const Courier = Participant('Courier', {
     ...User,
-    getDeliveryOutcome: Fun([UInt], UInt),
-    getTemperature: Fun([UInt], UInt),
+    getDeliveryOutcome: Fun([UInt], UInt),      // input delivery status
+    getTemperature: Fun([UInt], UInt),          // input shipment temperature
   })
 
   init();
