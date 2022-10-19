@@ -21,7 +21,7 @@ export const main = Reach.App(() => {
   });
   const Courier = Participant('Courier', {
     ...User,
-    getDeliveryOutcome: Fun([UInt], UInt),      // input delivery status
+    getDeliveryOutcome: Fun([UInt], UInt),      // display argument(item) thn input delivery status
     getTemperature: Fun([Null], UInt),          // input shipment temperature
     getServiceCharge: Fun([Null], UInt)         // input service cahrge
   })
