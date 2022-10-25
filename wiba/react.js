@@ -91,7 +91,8 @@ class Seller extends User {
     this.setState({view: 'Attaching'})
     backend.Seller(ctc, this)
   }
-  getOrderOutcome(order) {
+  //getOrderOutcome(order) {
+  async getOrderOutcome(order) {
     return await new Promise(resolveAcceptedP => {
       this.setState({view: 'AcceptOrder', order, resolveAcceptedP})
     })
