@@ -80,4 +80,25 @@ exports.WaitingForTurn = class extends React.Component {
   }
 }
 
+exports.AcceptOrder = class extends React.Component {
+  render() {
+    return (
+      <div>
+        Do you want to accept or reject the order from buyer?
+        <button
+          onClick={() => {
+            this.setState({disabled: true});
+            parent.termsAccepted();
+          }}
+        >Accept the order</button>
+        <button
+          onClick={() => {
+            this.setState({disabled: true});
+            parent.termsAccepted();  // need to change
+          }}
+        >Reject the order</button>
+      </div>
+    );
+  }
+}
 export default exports;
