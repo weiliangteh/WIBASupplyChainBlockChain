@@ -100,10 +100,16 @@ class Seller extends User {
     this.state.resolveAcceptedP()
     this.setState({view: 'WaitingForTurn'})
   }
+  orderAccepted(){
+    this.state.resolveAcceptedP()
+    this.setState({view: 'ThankYou'})
+  }
+  orderRejected(){
+    this.state.resolveAcceptedP()
+    this.setState({view: 'ThankYou'})
+  }
   // getOrderOutcome function
   render() { return renderView(this, AttacherViews) }
 }
-
-
 
 renderDOM(<App />)
