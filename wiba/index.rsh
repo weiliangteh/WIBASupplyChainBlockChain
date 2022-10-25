@@ -2,28 +2,28 @@
 
 const User = {
   ...hasRandom,
-  seeOrderOutcome: Fun([UInt], Null),   // order acceptance/decline UInt == order status
-  seeDeliveryOutcome: Fun([UInt], Null), // see order delivery status
+  seeOrderOutcome: Fun([UInt], Null),
+  seeDeliveryOutcome: Fun([UInt], Null),
   informTimeout: Fun([], Null),
 };
 
 export const main = Reach.App(() => {
   const Seller = Participant('Seller', {
     ...User,
-    getOrderOutcome: Fun([UInt], UInt),     // accept/decline order
-    wager: UInt,
+    getOrderOutcome: Fun([UInt], UInt),
+    price: UInt,
     deadline: UInt,
   });
-  const Buyer  = Participant('Buyer', {
+  const Buyer = Participant('Buyer', {
     ...User,
-    getOrder: Fun([], UInt),               // buyer input order
-    acceptWager: Fun([UInt, UInt], Null), 
+    getOrder: Fun([], UInt),
+    acceptWager: Fun([UInt, UInt], Null),
   });
   const Courier = Participant('Courier', {
     ...User,
-    getDeliveryOutcome: Fun([UInt], UInt),      // display argument(item) thn input delivery status
-    getTemperature: Fun([Null], UInt),          // input shipment temperature
-    getServiceCharge: Fun([Null], UInt)         // input service cahrge
+    charges: UInt,
+    getDeliveryOutcome: Fun([UInt], UInt),
+    getTemperature: Fun([UInt], UInt),
   })
 
   init();
@@ -39,44 +39,49 @@ export const main = Reach.App(() => {
   });
   Buyer.publish(order)
   commit();
-
+  
   Seller.only(() => {
     const orderOutcome = declassify(interact.getOrderOutcome(order));
-    const deadline = declassify(interact.deadline);     // might not need anymore with react
-    const amount = declassify(interact.wager);
+    const deadline = declassify(interact.deadline);
+    const price = declassify(interact.price);
   });
-  Seller.publish(orderOutcome, deadline, amount)
+  Seller.publish(orderOutcome, deadline, price);
+  commit();
+
+  Courier.only(() => {
+    const charges = declassify(interact.charges);
+  });
+  Courier.publish(charges);
   commit();
 
   Buyer.only(() => {
-    interact.acceptWager(amount); 
+    interact.acceptWager(price, charges);
   });
-  Buyer.pay(amount)
+  Buyer.pay(price + charges)
     .timeout(relativeTime(deadline), () => closeTo(Seller, informTimeout));
 
   //must be in consensus
   var delivery = 0;
-  //var outcome = DRAW;
-  invariant(balance() == amount);
-  while (delivery == 0 || delivery == 1) {
+  invariant(balance() == (price + charges));
+  while (delivery != 2) {
     commit();
 
     Courier.only(() => {
-      const deliveryOutcome = declassify(interact.getDeliveryOutcome(order));
       const temperature = declassify(interact.getTemperature(order));
+      const deliveryOutcome = declassify(interact.getDeliveryOutcome(order));
     });
-    Courier.publish(deliveryOutcome, temperature)
+    Courier.publish(deliveryOutcome, temperature);
 
     each([Seller, Buyer], () => {
-      interact.seeDeliveryOutcome(order);
+      interact.seeDeliveryOutcome(deliveryOutcome);
     });
 
     delivery = deliveryOutcome;
     continue;
   }
   assert(delivery == 2);
-  transfer(amount * 0.8).to(Seller);
-  transfer(amount * 0.2).to(Courier);
+  transfer(price).to(Seller);
+  transfer(charges).to(Courier);
   commit();
   
 });
