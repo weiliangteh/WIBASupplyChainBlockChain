@@ -13,8 +13,10 @@ reach.setWalletFallback(reach.walletFallback({
   providerEnv: 'TestNet', MyAlgoConnect
 }));
 
-const orderStatus = ['To ship','On the way', 'Delivered']
-const orderAccepted = ['Accepted', 'Declined']
+//const orderStatus = ['To ship', 'On the way', 'Delivered']
+//const orderAccepted = ['Accepted', 'Declined']
+const orderStatus = ['Accepted', 'Pending', 'Rejected']
+const deliveryStatus = ['To ship', 'On the way', 'Delivered']
 const {standardUnit} = reach
 const defaults = {standardUnit}
 
@@ -47,6 +49,9 @@ class App extends React.Component{
 class User extends React.Component {
   seeOrderOutcome(order){  
     this.setState({view: 'SeeOrderOut', status: orderStatus[order]})  
+  }
+  seeDeliveryOutcome(order){
+    this.setState({view: 'SeeDeliveryOut', status: deliveryStatus[order]})
   }
   informTimeout() { this.setState({view: 'Timeout'}) }
 }
@@ -110,6 +115,33 @@ class Seller extends User {
     this.setState({view: 'ThankYou'})
   }
   // getOrderOutcome function
+  render() { return renderView(this, AttacherViews) }
+}
+
+// Courier
+class Courier extends User {
+  constructor(props) {
+    super(props)
+    this.state = {view: 'Attach'}
+  }
+  attach(ctcInfoStr) {
+    const ctc = this.props.acc.contract(backend, JSON.parse(ctcInfoStr))
+    this.setState({view: 'Attaching'})
+    backend.Courier(ctc, this)
+  }
+  //
+  async getDeliveryOutcome(order) {
+    return await new Promise(resolveAcceptedP => {
+      this.setState({view: 'AcceptOrder', order, resolveAcceptedP})
+    })
+  }
+  termsAccepted(){
+    this.state.resolveAcceptedP()
+    this.setState({view: 'WaitingForTurn'})
+  }
+
+  // temperature, service charge
+
   render() { return renderView(this, AttacherViews) }
 }
 
