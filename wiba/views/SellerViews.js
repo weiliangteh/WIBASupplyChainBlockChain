@@ -88,13 +88,13 @@ exports.AcceptOrder = class extends React.Component {
         <button
           onClick={() => {
             this.setState({disabled: true});
-            parent.termsAccepted();
+            parent.orderAccepted();
           }}
         >Accept the order</button>
         <button
           onClick={() => {
             this.setState({disabled: true});
-            parent.termsAccepted();  // need to change
+            parent.orderRejected();
           }}
         >Reject the order</button>
       </div>
