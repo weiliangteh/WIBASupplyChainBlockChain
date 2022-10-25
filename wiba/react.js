@@ -14,6 +14,7 @@ reach.setWalletFallback(reach.walletFallback({
 }));
 
 const orderStatus = ['To ship','On the way', 'Delivered']
+const orderAccepted = ['Accepted', 'Declined']
 const {standardUnit} = reach
 const defaults = {standardUnit}
 
@@ -91,7 +92,9 @@ class Seller extends User {
     backend.Seller(ctc, this)
   }
   getOrderOutcome(order) {
-    this.setState({view: ""})
+    return await new Promise(resolveAcceptedP => {
+      this.setState({view: 'AcceptOrder', order, resolveAcceptedP})
+    })
   }
   termsAccepted(){
     this.state.resolveAcceptedP()
