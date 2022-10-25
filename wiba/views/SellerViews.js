@@ -101,4 +101,15 @@ exports.AcceptOrder = class extends React.Component {
     );
   }
 }
+
+exports.ThankYou = class extends React.Component {
+  render() {
+    return (
+      <div>
+        Thank you for the reply whether to accept/reject the order.
+      </div>
+    );
+  }
+}
+
 export default exports;
