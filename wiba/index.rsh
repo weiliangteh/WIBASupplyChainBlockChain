@@ -3,27 +3,27 @@
 const User = {
   ...hasRandom,
   seeOrderOutcome: Fun([UInt], Null),
-  seeDeliveryOutcome: Fun([UInt], Null),
+  seeDeliveryStatus: Fun([UInt], Null),
   informTimeout: Fun([], Null),
 };
 
 export const main = Reach.App(() => {
   const Seller = Participant('Seller', {
     ...User,
-    getOrderOutcome: Fun([UInt], UInt),
+    getOrderOutcome: Fun([UInt], UInt),       // take in buyer order, return accept/decline
     price: UInt,
     deadline: UInt,
   });
   const Buyer = Participant('Buyer', {
     ...User,
-    getOrder: Fun([], UInt),
+    getOrder: Fun([], UInt),                // take order form buyer and return it
     acceptWager: Fun([UInt, UInt], Null),
   });
   const Courier = Participant('Courier', {
     ...User,
     charges: UInt,
-    getDeliveryOutcome: Fun([UInt], UInt),
-    getTemperature: Fun([UInt], UInt),
+    getDeliveryStatus: Fun([UInt], UInt),    // order status (ship)
+    getTemperature: Fun([UInt], UInt),        // ask courier staff for shipment temperature thn return it
   })
 
   init();
@@ -68,12 +68,12 @@ export const main = Reach.App(() => {
 
     Courier.only(() => {
       const temperature = declassify(interact.getTemperature(order));
-      const deliveryOutcome = declassify(interact.getDeliveryOutcome(order));
+      const deliveryOutcome = declassify(interact.getDeliveryStatus(order));
     });
     Courier.publish(deliveryOutcome, temperature);
 
     each([Seller, Buyer], () => {
-      interact.seeDeliveryOutcome(deliveryOutcome);
+      interact.seeDeliveryStatus(deliveryOutcome);
     });
 
     delivery = deliveryOutcome;
