@@ -90,7 +90,9 @@ class Seller extends User {
     this.setState({view: 'Attaching'})
     backend.Seller(ctc, this)
   }
-
+  getOrderOutcome(order) {
+    this.setState({view: ""})
+  }
   termsAccepted(){
     this.state.resolveAcceptedP()
     this.setState({view: 'WaitingForTurn'})
