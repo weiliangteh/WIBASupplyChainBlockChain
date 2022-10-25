@@ -17,7 +17,7 @@ export const main = Reach.App(() => {
   const Buyer = Participant('Buyer', {
     ...User,
     getOrder: Fun([], UInt),                // take order form buyer and return it
-    acceptWager: Fun([UInt, UInt], Null),
+    acceptWager: Fun([UInt, UInt], Null),   // take in seller price & courier service cost, if no exit program
   });
   const Courier = Participant('Courier', {
     ...User,
