@@ -50,6 +50,36 @@ class User extends React.Component {
   informTimeout() { this.setState({view: 'Timeout'}) }
 }
 
+class Buyer extends User {
+  constructor(props) {
+    super(props)
+    this.state = {view: 'Attach'}
+  }
+  // getorder
+  //acceptwager
+  async acceptWager(orderPriceAtomic, courierChargesAtomic){
+    const orderPrice = reach.formatCurrency(orderPriceAtomic, 4)
+    const courierCharges = reach.formatCurrency(courierChargesAtomic, 4)
+    return await new Promise(resolveAcceptedP => {
+      this.setState({view: 'AcceptWager', orderPrice, courierCharges, resolveAcceptedP})
+    })
+  }
+  async deploy() {
+    const ctc = this.props.acc.contract(backend)
+    this.setState({view: 'Deploying', ctc})
+    this.wager = reach.parseCurrency(this.state.wager)
+    this.deadline = {ETH:100, ALGO:100, CFX: 1000}[reach.connector]
+    backend.Buyer(ctc, this)
+    const ctcInfoStr = JSON.stringify(await ctc.getInfo(), null, 2)
+    this.setState({view: 'WaitingForAttacher', ctcInfoStr})
+  }
+  async wagerAccepted(){
+    this.state.resolveAcceptedP()
+    this.setState({view: 'WaitingForTurn'})
+  }
+  render() { return renderView(this, DeployerViews) }
+}
+
 class Seller extends User {
   constructor(props) {
     super(props)
@@ -58,14 +88,9 @@ class Seller extends User {
   attach(ctcInfoStr) {
     const ctc = this.props.acc.contract(backend, JSON.parse(ctcInfoStr))
     this.setState({view: 'Attaching'})
-    backend.Bob(ctc, this)
+    backend.Seller(ctc, this)
   }
-  async acceptWager(wagerAtomic){
-    const wager = reach.formatCurrency(wagerAtomic, 4)
-    return await new Promise(resolveAcceptedP => {
-      this.setState({view: 'Acceptterms', wager, resolveAcceptedP})
-    })
-  }
+
   termsAccepted(){
     this.state.resolveAcceptedP()
     this.setState({view: 'WaitingForTurn'})
@@ -73,5 +98,7 @@ class Seller extends User {
   // getOrderOutcome function
   render() { return renderView(this, AttacherViews) }
 }
+
+
 
 renderDOM(<App />)
