@@ -47,6 +47,7 @@ class App extends React.Component{
 }
 
 class User extends React.Component {
+  random(){ return reach.hasRandom.random() }
   seeOrderOutcome(order){  
     this.setState({view: 'SeeOrderOut', status: orderStatus[order]})  
   }
