@@ -1,4 +1,7 @@
 import React from 'react'
+import Buyer from './views/BuyerViews'
+import Seller from './views/SellerViews'
+import Courier from './views/CourierViews'
 import AppViews from './views/AppViews'
 import { renderDOM, renderView } from './views/render'
 import './index.css'
@@ -33,16 +36,17 @@ class App extends React.Component{
     if(await reach.canFundFromFaucet()){
       this.setState({view: 'FundAccount'})
     }else{
-      this.setState({view: 'DeployerOrAttacher'})
+      this.setState({view: 'BuyerOrSellerOrCourier'})
     }
   }
   async fundAccount(fundAmount){
     await reach.fundFromFaucet(this.state.acc, reach.parseCurrency(fundAmount))
-    this.setState({view: 'DeployerOrAttacher'})
+    this.setState({view: 'BuyerOrSellerOrCourier'})
   }
-  async skipFundAccount() { this.setState({view: 'DeployerOrAttacher'})}
-  selectAttacher() { this.setState({view: 'Wrapper', ContentView: Attacher})}
-  selectDeployer() { this.setState({view: 'Wrapper', ContentView: Deployer})}
+  async skipFundAccount() { this.setState({view: 'BuyerOrSellerOrCourier'})}
+  selectCourier() { this.setState({view: 'Wrapper', ContentView: Courier})}
+  selectSeller() { this.setState({view: 'Wrapper', ContentView: Seller})}
+  selectBuyer() { this.setState({view: 'Wrapper', ContentView: Buyer})}
   render(){ return renderView(this, AppViews) }
 }
 
