@@ -67,6 +67,17 @@ class Buyer extends User {
     this.state = {view: 'Attach'}
   }
   // getorder
+  async getOrder(){
+    const date = new Date()
+    const day = date.getDate()
+    const month = date.getMonth()+1
+    const year = date.getFullYear()
+    const toDate = `${day}${month}${year}`
+    const randomId = Math.ceil(Math.random() * (99999 - 11111) + 11111)
+    const idString = toDate+randomId.toString(10)
+    const id = Number.parseInt(idString)
+    return id
+  }
   //acceptwager
   async acceptWager(orderPriceAtomic, courierChargesAtomic){
     const orderPrice = reach.formatCurrency(orderPriceAtomic, 4)
