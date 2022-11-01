@@ -80,33 +80,57 @@ exports.WaitingForTurn = class extends React.Component {
   }
 }
 
-exports.AcceptOrder = class extends React.Component {
+exports.CheckDeliveryStatus = class extends React.Component {
   render() {
     return (
       <div>
-        Do you want to accept or reject the order from buyer?
+        Update delivery status: 
         <button
           onClick={() => {
             this.setState({disabled: true});
-            parent.orderAccepted();
+            parent.deliveryToShip();
           }}
-        >Accept the order</button>
+        >To ship</button>
         <button
           onClick={() => {
             this.setState({disabled: true});
-            parent.orderRejected();
+            parent.deliveryOnTheWay();
           }}
-        >Reject the order</button>
+        >On the way</button>
+        <button
+          onClick={() => {
+            this.setState({disabled: true});
+            parent.deliveryDelivered();
+          }}
+        >Delivered</button>
       </div>
     );
   }
 }
 
-exports.ThankYou = class extends React.Component {
+exports.MsgToShip = class extends React.Component {
   render() {
     return (
       <div>
-        Thank you for the reply whether to accept/reject the order.
+        Order will be shipped out soon.
+      </div>
+    );
+  }
+}
+exports.MsgOtw = class extends React.Component {
+  render() {
+    return (
+      <div>
+        Order is on the way to be delivered.
+      </div>
+    );
+  }
+}
+exports.MsgDelivered = class extends React.Component {
+  render() {
+    return (
+      <div>
+        Order has been delivered.
       </div>
     );
   }

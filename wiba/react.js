@@ -145,18 +145,34 @@ class Courier extends User {
     this.setState({view: 'Attaching'})
     backend.Courier(ctc, this)
   }
+
   //
   async getDeliveryOutcome(order) {
     return await new Promise(resolveAcceptedP => {
-      this.setState({view: 'AcceptOrder', order, resolveAcceptedP})
+      this.setState({view: 'CheckDeliveryStatus', order, resolveAcceptedP})
     })
   }
+
   termsAccepted(){
     this.state.resolveAcceptedP()
     this.setState({view: 'WaitingForTurn'})
   }
 
-  // temperature, service charge
+  deliveryToShip(){
+    this.state.resolveAcceptedP()
+    this.setState({view: 'MsgToShip'})
+  }
+  deliveryOnTheWay(){
+    this.state.resolveAcceptedP()
+    this.setState({view: 'MsgOtw'})
+  }
+  deliveryDelivered(){
+    this.state.resolveAcceptedP()
+    this.setState({view: 'MsgDelivered'})
+  }
+
+  //
+
 
   render() { return renderView(this, AttacherViews) }
 }
