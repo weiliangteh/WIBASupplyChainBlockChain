@@ -90,5 +90,14 @@ exports.AcceptWager = class extends React.Component{
   }
 }
 
+exports.getOrder = class extends React.Component{
+  render(){
+    return(
+      <p>
+        Generating order id...
+      </p>
+    )
+  }
+}
 
 export default exports;

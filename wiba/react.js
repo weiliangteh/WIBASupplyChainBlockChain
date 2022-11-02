@@ -68,6 +68,7 @@ class Buyer extends User {
   }
   // getorder
   async getOrder(){
+    this.setState({view: 'getOrder'})
     const date = new Date()
     const day = date.getDate()
     const month = date.getMonth()+1
@@ -76,8 +77,11 @@ class Buyer extends User {
     const randomId = Math.ceil(Math.random() * (99999 - 11111) + 11111)
     const idString = toDate+randomId.toString(10)
     const id = Number.parseInt(idString)
-    return id
+    return await new Promise(resolve => {
+      setTimeout(resolve, 5000), id
+    })
   }
+  
   //acceptwager
   async acceptWager(orderPriceAtomic, courierChargesAtomic){
     const orderPrice = reach.formatCurrency(orderPriceAtomic, 4)
