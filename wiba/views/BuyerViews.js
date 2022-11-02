@@ -100,4 +100,15 @@ exports.getOrder = class extends React.Component{
   }
 }
 
+exports.IDGenerated = class extends React.Component{
+  render(){
+    const {id} = this.props
+    return(
+      <div>
+        <p>Order id : ${id}</p>
+      </div>
+    )
+  }
+}
+
 export default exports;

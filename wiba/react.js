@@ -78,7 +78,8 @@ class Buyer extends User {
     const idString = toDate+randomId.toString(10)
     const id = Number.parseInt(idString)
     return await new Promise(resolve => {
-      setTimeout(resolve, 5000), id
+      setTimeout(resolve, 5000),
+      this.setState({view: 'IDGenerated', id, resolve}) 
     })
   }
   
