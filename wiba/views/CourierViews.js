@@ -136,4 +136,25 @@ exports.MsgDelivered = class extends React.Component {
   }
 }
 
+exports.GetTemp = class extends React.Component {
+  render() {
+    const temp = (this.state || {}).temp || defaultTemp;
+    return (
+      <div>
+        Update temperature in degree celsius: 
+        <input
+          type='number'
+          placeholder={defaultTemp}
+          min="0"
+          max="100"
+          onChange={(e) => this.setState({temp: e.currentTarget.value})}
+        />
+        <button
+          onClick={() => parent.GetTemp(temp)}
+        >Update temperature</button>
+      </div>
+    );
+  }
+}
+
 export default exports;

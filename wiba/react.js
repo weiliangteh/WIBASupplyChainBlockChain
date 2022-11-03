@@ -21,7 +21,7 @@ reach.setWalletFallback(reach.walletFallback({
 const orderStatus = ['Accepted', 'Pending', 'Rejected']
 const deliveryStatus = ['To ship', 'On the way', 'Delivered']
 const {standardUnit} = reach
-const defaults = {standardUnit}
+const defaults = {standardUnit, defaultTemp: '28'}
 
 class App extends React.Component{
   constructor(props){
@@ -152,17 +152,15 @@ class Courier extends User {
   }
 
   //
-  async getDeliveryOutcome(order) {
+  async getDeliveryStatus(order) {
     return await new Promise(resolveAcceptedP => {
       this.setState({view: 'CheckDeliveryStatus', order, resolveAcceptedP})
     })
   }
-
   termsAccepted(){
     this.state.resolveAcceptedP()
     this.setState({view: 'WaitingForTurn'})
   }
-
   deliveryToShip(){
     this.state.resolveAcceptedP()
     this.setState({view: 'MsgToShip'})
@@ -177,7 +175,11 @@ class Courier extends User {
   }
 
   //
-
+  async getTemperature(order) {
+    return await new Promise(resolveAcceptedP => {
+      this.setState({view: 'GetTemp', order, resolveAcceptedP})
+    })
+  }
 
   render() { return renderView(this, AttacherViews) }
 }
