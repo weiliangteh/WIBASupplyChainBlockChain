@@ -61,7 +61,7 @@ class User extends React.Component {
   informTimeout() { this.setState({view: 'Timeout'}) }
 }
 
-class Buyer extends User {
+class BuyerFunc extends User {
   constructor(props) {
     super(props)
     this.state = {view: 'Attach'}
@@ -107,7 +107,7 @@ class Buyer extends User {
   render() { return renderView(this, DeployerViews) }
 }
 
-class Seller extends User {
+class SellerFunc extends User {
   constructor(props) {
     super(props)
     this.state = {view: 'Attach'}
@@ -140,7 +140,7 @@ class Seller extends User {
 }
 
 // Courier
-class Courier extends User {
+class CourierFunc extends User {
   constructor(props) {
     super(props)
     this.state = {view: 'Attach'}
