@@ -8,7 +8,7 @@ This project is about a courier company that provide transportation services for
 
 ## Where is it
 
-Our project source code is located at main branch
+Our project source code is located at main branch/wiba
 
 ## 
 
