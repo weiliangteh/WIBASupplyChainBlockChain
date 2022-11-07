@@ -8,7 +8,7 @@ exports.Wrapper = class extends React.Component {
     const {content} = this.props;
     return (
       <div className="Attacher">
-        <h2>Seller</h2>
+        <h2>Courier</h2>
         {content}
       </div>
     );
@@ -80,33 +80,78 @@ exports.WaitingForTurn = class extends React.Component {
   }
 }
 
-exports.AcceptOrder = class extends React.Component {
+exports.CheckDeliveryStatus = class extends React.Component {
   render() {
     return (
       <div>
-        Do you want to accept or reject the order from buyer?
+        Update delivery status: 
         <button
           onClick={() => {
             this.setState({disabled: true});
-            parent.orderAccepted();
+            parent.deliveryToShip();
           }}
-        >Accept the order</button>
+        >To ship</button>
         <button
           onClick={() => {
             this.setState({disabled: true});
-            parent.orderRejected();
+            parent.deliveryOnTheWay();
           }}
-        >Reject the order</button>
+        >On the way</button>
+        <button
+          onClick={() => {
+            this.setState({disabled: true});
+            parent.deliveryDelivered();
+          }}
+        >Delivered</button>
       </div>
     );
   }
 }
 
-exports.ThankYou = class extends React.Component {
+exports.MsgToShip = class extends React.Component {
   render() {
     return (
       <div>
-        Thank you for the reply whether to accept/reject the order.
+        Order will be shipped out soon.
+      </div>
+    );
+  }
+}
+exports.MsgOtw = class extends React.Component {
+  render() {
+    return (
+      <div>
+        Order is on the way to be delivered.
+      </div>
+    );
+  }
+}
+exports.MsgDelivered = class extends React.Component {
+  render() {
+    return (
+      <div>
+        Order has been delivered.
+      </div>
+    );
+  }
+}
+
+exports.GetTemp = class extends React.Component {
+  render() {
+    const temp = (this.state || {}).temp || defaultTemp;
+    return (
+      <div>
+        Update temperature in degree celsius: 
+        <input
+          type='number'
+          placeholder={defaultTemp}
+          min="0"
+          max="100"
+          onChange={(e) => this.setState({temp: e.currentTarget.value})}
+        />
+        <button
+          onClick={() => parent.GetTemp(temp)}
+        >Update temperature</button>
       </div>
     );
   }

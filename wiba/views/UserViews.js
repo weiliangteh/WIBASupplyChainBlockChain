@@ -13,6 +13,17 @@ exports.SeeOrderOut = class extends React.Component {
   }
 }
 
+exports.SeeDeliveryOut = class extends React.Component {
+  render(){
+    const {status} = this.props
+    return(
+      <div>
+        The delivery status: {status} 
+      </div>
+    )
+  }
+}
+
 exports.WaitingForResults = class extends React.Component {
   render() {
     return (
